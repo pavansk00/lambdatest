@@ -3,26 +3,29 @@ name: Deploy Lambda
 on:
   push:
     branches:
-      - main   # change if your branch name is different
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Install zip tool
-        uses: montudor/action-install-zip@v1
-      - name: Create Zip function for lambda function
-        run: zip -r code.zip .
-      - name: AWS CLI v2
-        uses: imehendi/actions-aws-cli-v2@latest
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          args: "lambda update-function-code \
-          --function-name arn:aws:lambda:us-east-1:482268323614:function:test1 \
-          --zip-file fileb://code.zip"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFault_REGION: "us-east-1"
-        
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Create ZIP for Lambda
+        run: |
+          zip -r code.zip .
+
+      - name: Deploy to AWS Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name arn:aws:lambda:us-east-1:482268323614:function:test1 \
+            --zip-file fileb://code.zip
