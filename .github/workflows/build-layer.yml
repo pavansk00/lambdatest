@@ -35,4 +35,4 @@ jobs:
           aws lambda publish-layer-version \
             --layer-name pandas-numpy-layer \
             --zip-file fileb://layer/pandas-numpy-layer.zip \
-            --compatible-runtimes python3.9 python3.12
+            --compatible-runtimes python3.9 python3.10 python3.11 python3.12
