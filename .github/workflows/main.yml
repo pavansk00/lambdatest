@@ -29,9 +29,9 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           if [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            FUNCTION_NAME="arn:aws:lambda:us-east-1:482268323614:function:test1-dev"
+            FUNCTION_NAME="arn:aws:lambda:us-west-1:773037794134:function:test1-dev"
           else
-            FUNCTION_NAME="arn:aws:lambda:us-east-1:482268323614:function:test1-prod"
+            FUNCTION_NAME="arn:aws:lambda:us-west-1:773037794134:function:test1-prod"
           fi
 
           aws lambda update-function-code \
