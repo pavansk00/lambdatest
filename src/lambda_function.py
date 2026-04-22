@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     df = pd.DataFrame(data, columns=["A", "B", "C"])
 
     # Print dataframe (will appear in CloudWatch logs)
-    print("DataFrame output:")
+    print("DataFrame output:") #output  
     print(df)
 
     return {
