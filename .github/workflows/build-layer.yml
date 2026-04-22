@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - layer/requirements.txt
+  workflow_dispatch:
 
 jobs:
   build-layer:
@@ -28,11 +29,11 @@ jobs:
       - name: Zip Lambda layer
         run: |
           cd layer
-          zip -r pandas-numpy-layer1.zip python
+          zip -r pandas-numpy-layer.zip python
 
       - name: Publish Lambda Layer
         run: |
           aws lambda publish-layer-version \
-            --layer-name pandas-numpy-layer1 \
-            --zip-file fileb://layer/pandas-numpy-layer1.zip \
+            --layer-name pandas-numpy-layer \
+            --zip-file fileb://layer/pandas-numpy-layer.zip \
             --compatible-runtimes python3.9 python3.10 python3.11 python3.12
