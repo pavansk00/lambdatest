@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -20,11 +19,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create ZIP for Lambda
-        run: |
-          zip -r code.zip .
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
-      - name: Deploy to AWS Lambda
+      - name: Zip code
+        run: zip -r code.zip .
+
+      - name: Deploy Lambda
         run: |
           aws lambda update-function-code \
             --function-name arn:aws:lambda:us-east-1:482268323614:function:test1 \
