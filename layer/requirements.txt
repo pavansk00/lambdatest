@@ -1,2 +1,3 @@
 pandas
 numpy
+# trigger layer build workflow when requirements.txt is updated
